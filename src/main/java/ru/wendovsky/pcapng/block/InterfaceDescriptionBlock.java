@@ -29,7 +29,7 @@ public final class InterfaceDescriptionBlock implements Block {
 
     private LinkType linkTypeById(int id) {
         if (!LINK_TYPE_MAP.containsKey(id)) {
-            return null;
+            throw new IllegalArgumentException("Unknown link type: " + id);
         }
         return LINK_TYPE_MAP.get(id);
     }
