@@ -13,7 +13,7 @@ import ru.wendovsky.pcapng.reader.Reader;
 @Getter
 @Accessors(fluent = true)
 public final class EnhancedPacketBlock implements Block {
-    final int interfaceId;
+    final InterfaceDescriptionBlock interfaceDescriptionBlock;
     final int timestampHigh;
     final int timestampLow;
     final int capturedLength;
@@ -22,7 +22,9 @@ public final class EnhancedPacketBlock implements Block {
 
     public EnhancedPacketBlock(Context context) {
         Reader reader = context.reader();
-        interfaceId = reader.readInt();
+        Lookup lookup = context.lookup();
+        int interfaceId = reader.readInt();
+        interfaceDescriptionBlock = lookup.findInterfaceDescriptionBlockById(interfaceId);
         timestampHigh = reader.readInt();
         timestampLow = reader.readInt();
         capturedLength = reader.readInt();

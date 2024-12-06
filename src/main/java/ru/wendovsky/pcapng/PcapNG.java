@@ -4,10 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
-import ru.wendovsky.pcapng.block.Block;
-import ru.wendovsky.pcapng.block.EnhancedPacketBlock;
-import ru.wendovsky.pcapng.block.InterfaceDescriptionBlock;
-import ru.wendovsky.pcapng.block.SectionHeaderBlock;
+import ru.wendovsky.pcapng.block.*;
 import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
 import ru.wendovsky.pcapng.reader.Reader;
@@ -37,12 +34,13 @@ public final class PcapNG {
 
     private List<Block> parseBlocks(Reader reader) {
         List<Block> blocks = new ArrayList<>();
+        Lookup lookup = new PrimaryLookup(blocks);
         while (!reader.endOfStream()) {
             int blockType = reader.readInt();
             int blockLength = lengthOfBlock(reader) - META_BYTES_PER_BLOCK_COUNT;
             // Mark end of block
             reader.mark(blockLength + reader.position());
-            blocks.add(blockByBlockType(new Context(reader), blockType));
+            blocks.add(blockByBlockType(new Context(reader, lookup), blockType));
             skipLengthOfBlock(reader);
         }
         return blocks;

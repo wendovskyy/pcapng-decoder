@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.environment.Environment;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
@@ -16,9 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.wendovsky.pcapng.util.TestUtils.STANDALONE;
 import static ru.wendovsky.pcapng.util.TestUtils.standalone;
-
+import static org.mockito.Mockito.*;
 class SectionHeaderBlockTest {
     static SectionHeaderBlock block;
+    static Lookup lookup;
 
     @BeforeAll
     static void setUp(TestInfo testInfo) {
@@ -28,7 +32,7 @@ class SectionHeaderBlockTest {
         Reader reader = Environment.bunnyReader();
         // type, length
         reader.skip(8);
-        block = new SectionHeaderBlock(new Context(reader));
+        block = new SectionHeaderBlock(new Context(reader, lookup = mock(Lookup.class)));
     }
 
     @Test
@@ -38,7 +42,7 @@ class SectionHeaderBlockTest {
         buffer.putInt(8, 0);
         Reader reader = new ByteBufferReader(buffer);
         reader.skip(8);
-        assertThrows(PcapNGFileFormatException.class, () -> new SectionHeaderBlock(new Context(reader)));
+        assertThrows(PcapNGFileFormatException.class, () -> new SectionHeaderBlock(new Context(reader, lookup)));
     }
 
     @Test
