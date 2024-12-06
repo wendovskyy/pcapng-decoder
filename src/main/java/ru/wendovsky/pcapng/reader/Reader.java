@@ -24,4 +24,8 @@ public interface Reader {
     int position();
 
     boolean endOfStream();
+
+    void mark(int index);
+
+    boolean markAchieved();
 }

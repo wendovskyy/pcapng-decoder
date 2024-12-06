@@ -107,6 +107,18 @@ class ByteBufferReaderTest {
         assertTrue(reader.endOfStream());
     }
 
+    @Test
+    @Tag(IGNORE_ORDER)
+    void mark() {
+        reader.mark(8);
+        for (int i = 0; i < 7; i++) {
+            reader.readUnsignedByte();
+        }
+        assertFalse(reader.markAchieved());
+        reader.readUnsignedByte();
+        assertTrue(reader.markAchieved());
+    }
+
     boolean hasOrderInContext(TestInfo context) {
         return !context.getTags().contains("IGNORE_ORDER");
     }

@@ -16,6 +16,7 @@ import java.util.Objects;
 public final class ByteBufferReader implements Reader {
     @NonNull
     final ByteBuffer buffer;
+    int markIndex;
 
     @Override
     public int readUnsignedByte() throws ReaderEndOfStreamException {
@@ -79,6 +80,16 @@ public final class ByteBufferReader implements Reader {
     @Override
     public boolean endOfStream() {
         return !buffer.hasRemaining();
+    }
+
+    @Override
+    public void mark(int index) {
+        markIndex = index;
+    }
+
+    @Override
+    public boolean markAchieved() {
+        return position() >= markIndex;
     }
 
     private void guaranteeMoreFreeBytes(int length) throws ReaderEndOfStreamException {
