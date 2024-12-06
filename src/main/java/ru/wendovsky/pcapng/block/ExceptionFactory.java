@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ExceptionFactory {
+public final class ExceptionFactory {
     final String name;
 
     public void throwException(Function<String, RuntimeException> exceptionFactory, String message) {
