@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 import ru.wendovsky.pcapng.PcapNG;
 import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.option.Options;
+import ru.wendovsky.pcapng.packet.PacketData;
+import ru.wendovsky.pcapng.packet.PacketDataFactory;
 import ru.wendovsky.pcapng.reader.Reader;
 import ru.wendovsky.pcapng.timestamp.Timestamp;
 
@@ -14,11 +16,10 @@ import ru.wendovsky.pcapng.timestamp.Timestamp;
 @Getter
 @Accessors(fluent = true)
 public final class EnhancedPacketBlock implements Block {
+    private static final PacketDataFactory PACKET_DATA_FACTORY = new PacketDataFactory();
     final InterfaceDescriptionBlock interfaceDescriptionBlock;
     final Timestamp timestamp;
-    final int capturedLength;
-    final int packetLength;
-    final byte[] packetData;
+    final PacketData packetData;
 
     public EnhancedPacketBlock(Context context) {
         Reader reader = context.reader();
@@ -26,9 +27,10 @@ public final class EnhancedPacketBlock implements Block {
         int interfaceId = reader.readInt();
         interfaceDescriptionBlock = lookup.findInterfaceDescriptionBlockById(interfaceId);
         timestamp = new Timestamp(reader.readInt(), reader.readInt(), interfaceDescriptionBlock.timeResolution());
-        capturedLength = reader.readInt();
-        packetLength = reader.readInt();
-        packetData = reader.readBytes(capturedLength);
+        int capturedLength = reader.readInt();
+        // Packet data length
+        reader.skip(4);
+        packetData = PACKET_DATA_FACTORY.instantiate(interfaceDescriptionBlock.linkType(), reader, capturedLength);
         reader.align(PcapNG.ALIGNMENT);
         Options.createOptionIfMarkNotAchievedOrNull(reader);
     }
