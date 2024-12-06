@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class IP {
+public final class IP {
     final int address;
 
     @Override

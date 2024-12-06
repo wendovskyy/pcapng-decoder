@@ -5,7 +5,7 @@ import ru.wendovsky.pcapng.reader.Reader;
 import java.util.Map;
 import java.util.function.Function;
 
-public class TypeFactory {
+public final class TypeFactory {
     private static final Map<Integer, Function<Reader, Type>> TYPE_INDEX_TO_TYPE =
             Map.of(
                     0x0800, IPv4::new

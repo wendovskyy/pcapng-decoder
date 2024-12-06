@@ -9,7 +9,7 @@ import ru.wendovsky.pcapng.reader.Reader;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Accessors(fluent = true)
 @Getter
-public class ICMP implements Protocol {
+public final class ICMP implements Protocol {
     public ICMP(Reader reader) {
         // Type
         reader.skip(1);

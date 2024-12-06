@@ -9,7 +9,7 @@ import ru.wendovsky.pcapng.reader.Reader;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Accessors(fluent = true)
 @Getter
-public class IPv4 implements Type {
+public final class IPv4 implements Type {
     private static final ProtocolFactory PROTOCOL_FACTORY = new ProtocolFactory();
     final IP source;
     final IP destination;

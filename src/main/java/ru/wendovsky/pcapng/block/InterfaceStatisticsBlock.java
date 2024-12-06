@@ -12,7 +12,7 @@ import ru.wendovsky.pcapng.timestamp.Timestamp;
 @Accessors(fluent = true)
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class InterfaceStatisticsBlock implements Block {
+public final class InterfaceStatisticsBlock implements Block {
     final InterfaceDescriptionBlock interfaceDescriptionBlock;
     final Timestamp timestamp;
 

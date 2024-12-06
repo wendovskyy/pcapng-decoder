@@ -9,7 +9,7 @@ import ru.wendovsky.pcapng.reader.Reader;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Accessors(fluent = true)
 @Getter
-public class UDP implements Protocol {
+public final class UDP implements Protocol {
     final int sourcePort;
     final int destinationPort;
 
