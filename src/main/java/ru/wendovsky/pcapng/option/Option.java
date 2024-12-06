@@ -22,6 +22,12 @@ public final class Option {
                 .orElse(null);
     }
 
+    public Integer asSingleUnsignedByteOrNull() {
+        return asSingleNode()
+                .map(Node::unsignedInt)
+                .orElse(null);
+    }
+
     private Optional<Node> asSingleNode() {
         guaranteeSingleNodeOrNull();
         if (nodes.isEmpty()) {
@@ -43,6 +49,10 @@ public final class Option {
     private record Node(byte[] data) {
         public String utf8() {
             return new String(data, StandardCharsets.UTF_8);
+        }
+
+        public int unsignedInt() {
+            return data[0] & 0xFF;
         }
     }
 }

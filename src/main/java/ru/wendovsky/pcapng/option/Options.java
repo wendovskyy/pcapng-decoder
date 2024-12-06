@@ -38,6 +38,12 @@ public final class Options {
                 .orElse(null);
     }
 
+    public Integer unsignedIntByCodeOrNull(int code) {
+        return byCode(code)
+                .map(Option::asSingleUnsignedByteOrNull)
+                .orElse(null);
+    }
+
     private Map<Integer, Option> parseOptions(Reader reader) {
         // LinkedHashMap saves the order
         Map<Integer, Option> map = new LinkedHashMap<>();
