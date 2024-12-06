@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
+import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
 import ru.wendovsky.pcapng.option.Options;
 import ru.wendovsky.pcapng.reader.Reader;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Accessors(fluent = true)
 public final class InterfaceDescriptionBlock implements Block {
+    private static final ExceptionFactory EXCEPTION_FACTORY = new ExceptionFactory("InterfaceDescriptionBlock");
     private static final Map<Integer, LinkType> LINK_TYPE_MAP = new HashMap<>();
     final LinkType linkType;
     final int snapLength;
@@ -29,7 +31,7 @@ public final class InterfaceDescriptionBlock implements Block {
 
     private LinkType linkTypeById(int id) {
         if (!LINK_TYPE_MAP.containsKey(id)) {
-            throw new IllegalArgumentException("Unknown link type: " + id);
+            throw EXCEPTION_FACTORY.exception(PcapNGFileFormatException::new, "Unknown link type: " + id);
         }
         return LINK_TYPE_MAP.get(id);
     }
