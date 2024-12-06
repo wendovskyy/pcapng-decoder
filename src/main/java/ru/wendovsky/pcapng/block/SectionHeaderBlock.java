@@ -9,21 +9,14 @@ import ru.wendovsky.pcapng.option.Options;
 import ru.wendovsky.pcapng.reader.Reader;
 
 import java.nio.ByteOrder;
-import java.util.Map;
 
 @Getter
 @Accessors(fluent = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class SectionHeaderBlock implements Block {
-    private static final String SHB_HARDWARE = "shb_hardware";
-    private static final String SHB_OS = "shb_os";
-    private static final String SHB_USER_APPLICATION = "shb_userappl";
-    private static final Map<Integer, String> OPTION_CODE_TO_OPTION_NAME =
-            Map.of(
-                    2, SHB_HARDWARE,
-                    3, SHB_OS,
-                    4, SHB_USER_APPLICATION
-            );
+    private static final int SHB_HARDWARE = 2;
+    private static final int SHB_OS = 3;
+    private static final int SHB_USER_APPLICATION = 4;
     private static final int BYTE_ORDER_MAGIC_LITTLE_ENDIAN = 0x4D3C2B1A;
     private static final int BYTE_ORDER_MAGIC_BIG_ENDIAN = 0x1A2B3C4D;
     final int major;
@@ -38,10 +31,10 @@ public final class SectionHeaderBlock implements Block {
         minor = reader.readUnsignedShort();
         // Skip the length of section
         reader.skip(8);
-        Options options = new Options(reader, OPTION_CODE_TO_OPTION_NAME);
-        shbHardware = options.stringByNameOrNull(SHB_HARDWARE);
-        shbOs = options.stringByNameOrNull(SHB_OS);
-        shbUserApplication = options.stringByNameOrNull(SHB_USER_APPLICATION);
+        Options options = new Options(reader);
+        shbHardware = options.stringByCodeOrNull(SHB_HARDWARE);
+        shbOs = options.stringByCodeOrNull(SHB_OS);
+        shbUserApplication = options.stringByCodeOrNull(SHB_USER_APPLICATION);
     }
 
     private ByteOrder byteOrder(int byteOrderMagic) {

@@ -12,55 +12,51 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Options {
     private static final int OPT_END_OF_OPT = 0;
-    final Map<String, Option> optionNameToOption;
+    final Map<Integer, Option> optionCodeToOption;
 
-    public Options(Reader reader, Map<Integer, String> optionCodeToOptionName) {
-        optionNameToOption = parseOptions(reader, optionCodeToOptionName);
+    public Options(Reader reader) {
+        optionCodeToOption = parseOptions(reader);
     }
 
-    public Optional<Option> byName(String name) {
-        if (!optionNameToOption.containsKey(name)) {
+    public Optional<Option> byCode(int code) {
+        if (!optionCodeToOption.containsKey(code)) {
             return Optional.empty();
         }
-        return Optional.of(optionNameToOption.get(name));
+        return Optional.of(optionCodeToOption.get(code));
     }
 
-    public String stringByNameOrNull(String name) {
-        return byName(name)
+    public String stringByCodeOrNull(int code) {
+        return byCode(code)
                 .map(Option::asSingleStringOrNull)
                 .orElse(null);
     }
 
-    private Map<String, Option> parseOptions(Reader reader, Map<Integer, String> optionCodeToOptionName) {
+    private Map<Integer, Option> parseOptions(Reader reader) {
         // LinkedHashMap saves the order
-        Map<String, Option> map = new LinkedHashMap<>();
+        Map<Integer, Option> map = new LinkedHashMap<>();
         RawOption rawOption;
-        while ((rawOption = parseRawOptionOrNull(reader, optionCodeToOptionName)) != null) {
-            String name = rawOption.name();
+        while ((rawOption = parseRawOptionOrNull(reader)) != null) {
+            int code = rawOption.code();
             byte[] bytes = rawOption.bytes();
-            Option option = map.computeIfAbsent(name, ignored -> new Option());
+            Option option = map.computeIfAbsent(code, ignored -> new Option());
             option.put(bytes);
         }
         return map;
     }
 
-    private RawOption parseRawOptionOrNull(Reader reader, Map<Integer, String> optionCodeToOptionName) {
+    private RawOption parseRawOptionOrNull(Reader reader) {
         int optionCode = reader.readUnsignedShort();
         int optionLength = reader.readUnsignedShort();
         if (optionCode == OPT_END_OF_OPT) {
             return null;
         }
-        if (!optionCodeToOptionName.containsKey(optionCode)) {
-            throw new IllegalStateException("Unknown option code " + optionCode);
-        }
-        String optionName = optionCodeToOptionName.get(optionCode);
         try {
-            return new RawOption(optionName, reader.readBytes(optionLength));
+            return new RawOption(optionCode, reader.readBytes(optionLength));
         } finally {
             reader.align(PcapNG.ALIGNMENT);
         }
     }
 
-    private record RawOption(String name, byte[] bytes) {
+    private record RawOption(int code, byte[] bytes) {
     }
 }
