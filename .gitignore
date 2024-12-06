@@ -37,3 +37,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### TestRunner ###
+src/main/java/ru/wendovsky/pcapng/TestRunner.java
