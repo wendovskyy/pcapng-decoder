@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.wendovsky.pcapng.block.lookup.Lookup;
+import ru.wendovsky.pcapng.block.lookup.PrimaryLookup;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
 
 import java.util.List;

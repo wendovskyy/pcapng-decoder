@@ -1,9 +1,11 @@
-package ru.wendovsky.pcapng.block;
+package ru.wendovsky.pcapng.block.lookup;
 
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import ru.wendovsky.pcapng.block.Block;
+import ru.wendovsky.pcapng.block.InterfaceDescriptionBlock;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
 
 import java.util.List;

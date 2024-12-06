@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import ru.wendovsky.pcapng.PcapNG;
+import ru.wendovsky.pcapng.block.lookup.Lookup;
 import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.option.Options;
 import ru.wendovsky.pcapng.packet.PacketData;

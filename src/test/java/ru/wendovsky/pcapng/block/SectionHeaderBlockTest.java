@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
+import ru.wendovsky.pcapng.block.lookup.Lookup;
 import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.environment.Environment;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
