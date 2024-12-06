@@ -2,7 +2,6 @@ package ru.wendovsky.pcapng.packet.ethernet;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import ru.wendovsky.pcapng.reader.Reader;

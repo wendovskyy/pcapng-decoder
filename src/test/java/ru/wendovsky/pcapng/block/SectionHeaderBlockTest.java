@@ -4,9 +4,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.environment.Environment;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
@@ -17,9 +14,9 @@ import java.nio.ByteBuffer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static ru.wendovsky.pcapng.util.TestUtils.STANDALONE;
 import static ru.wendovsky.pcapng.util.TestUtils.standalone;
-import static org.mockito.Mockito.*;
 class SectionHeaderBlockTest {
     static SectionHeaderBlock block;
     static Lookup lookup;
