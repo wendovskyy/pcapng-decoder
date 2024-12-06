@@ -21,7 +21,8 @@ public final class PcapNG {
     public static final int ALIGNMENT = 4;
     private static final Map<Integer, Function<Reader, Block>> BLOCK_TYPE_TO_BLOCK_FACTORY = Map.of(
             0x0A0D0D0A, SectionHeaderBlock::new,
-            0x00000001, InterfaceDescriptionBlock::new
+            0x00000001, InterfaceDescriptionBlock::new,
+            0x00000006, EnhancedPacketBlock::new
     );
     @Getter
     final List<Block> blocks;
