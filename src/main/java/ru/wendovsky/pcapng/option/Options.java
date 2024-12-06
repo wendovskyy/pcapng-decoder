@@ -18,6 +18,13 @@ public final class Options {
         optionCodeToOption = parseOptions(reader);
     }
 
+    public static Options createOptionIfMarkNotAchievedOrNull(Reader reader) {
+        if (reader.markAchieved()) {
+            return null;
+        }
+        return new Options(reader);
+    }
+
     public Optional<Option> byCode(int code) {
         if (!optionCodeToOption.containsKey(code)) {
             return Optional.empty();
