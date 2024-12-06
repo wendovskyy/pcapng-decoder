@@ -42,6 +42,12 @@ class ByteBufferReaderTest {
     }
 
     @Test
+    @Tag(LE)
+    void order() {
+        assertEquals(ByteOrder.LITTLE_ENDIAN, reader.order());
+    }
+
+    @Test
     @Tag(IGNORE_ORDER)
     void readUnsignedByte() {
         assertEquals(0xCA, reader.readUnsignedByte());

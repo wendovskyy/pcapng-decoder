@@ -92,6 +92,11 @@ public final class ByteBufferReader implements Reader {
         return position() >= markIndex;
     }
 
+    @Override
+    public ByteOrder order() {
+        return buffer.order();
+    }
+
     private void guaranteeMoreFreeBytes(int length) throws ReaderEndOfStreamException {
         if (buffer.position() + length > buffer.limit()) {
             throw new ReaderEndOfStreamException("End of stream");

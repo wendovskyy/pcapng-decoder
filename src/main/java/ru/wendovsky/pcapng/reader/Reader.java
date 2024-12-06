@@ -28,4 +28,6 @@ public interface Reader {
     void mark(int index);
 
     boolean markAchieved();
+
+    ByteOrder order();
 }
