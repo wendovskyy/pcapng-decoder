@@ -40,3 +40,4 @@ build/
 
 ### TestRunner ###
 src/main/java/ru/wendovsky/pcapng/TestRunner.java
+src/main/resources/bunny.pcapng
