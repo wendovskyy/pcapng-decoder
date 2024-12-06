@@ -23,7 +23,8 @@ public final class PcapNG {
     private static final Map<Integer, Function<Context, Block>> BLOCK_TYPE_TO_BLOCK_FACTORY = Map.of(
             0x0A0D0D0A, SectionHeaderBlock::new,
             0x00000001, InterfaceDescriptionBlock::new,
-            0x00000006, EnhancedPacketBlock::new
+            0x00000006, EnhancedPacketBlock::new,
+            0x00000005, InterfaceStatisticsBlock::new
     );
     @Getter
     final List<Block> blocks;
