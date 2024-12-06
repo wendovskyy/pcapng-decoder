@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import ru.wendovsky.pcapng.PcapNG;
+import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.option.Options;
 import ru.wendovsky.pcapng.reader.Reader;
 
@@ -19,7 +20,8 @@ public final class EnhancedPacketBlock implements Block {
     final int packetLength;
     final byte[] packetData;
 
-    public EnhancedPacketBlock(Reader reader) {
+    public EnhancedPacketBlock(Context context) {
+        Reader reader = context.reader();
         interfaceId = reader.readInt();
         timestampHigh = reader.readInt();
         timestampLow = reader.readInt();

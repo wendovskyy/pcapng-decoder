@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
+import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
 import ru.wendovsky.pcapng.option.Options;
 import ru.wendovsky.pcapng.reader.Reader;
@@ -26,7 +27,8 @@ public final class SectionHeaderBlock implements Block {
     final String shbOs;
     final String shbUserApplication;
 
-    public SectionHeaderBlock(Reader reader) {
+    public SectionHeaderBlock(Context context) {
+        Reader reader = context.reader();
         reader.order(byteOrder(reader.readInt()));
         major = reader.readUnsignedShort();
         minor = reader.readUnsignedShort();

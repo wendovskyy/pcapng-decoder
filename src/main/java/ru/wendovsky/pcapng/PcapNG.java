@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import ru.wendovsky.pcapng.block.*;
+import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
 import ru.wendovsky.pcapng.reader.Reader;
 
@@ -19,7 +20,7 @@ public final class PcapNG {
     // Block type, length, length
     private static final int META_BYTES_PER_BLOCK_COUNT = 12;
     public static final int ALIGNMENT = 4;
-    private static final Map<Integer, Function<Reader, Block>> BLOCK_TYPE_TO_BLOCK_FACTORY = Map.of(
+    private static final Map<Integer, Function<Context, Block>> BLOCK_TYPE_TO_BLOCK_FACTORY = Map.of(
             0x0A0D0D0A, SectionHeaderBlock::new,
             0x00000001, InterfaceDescriptionBlock::new,
             0x00000006, EnhancedPacketBlock::new
@@ -38,7 +39,7 @@ public final class PcapNG {
             int blockLength = lengthOfBlock(reader) - META_BYTES_PER_BLOCK_COUNT;
             // Mark end of block
             reader.mark(blockLength + reader.position());
-            blocks.add(blockByBlockType(reader, blockType));
+            blocks.add(blockByBlockType(new Context(reader), blockType));
             skipLengthOfBlock(reader);
         }
         return blocks;
@@ -53,10 +54,10 @@ public final class PcapNG {
         return reader.readInt();
     }
 
-    private Block blockByBlockType(Reader reader, int blockType) {
+    private Block blockByBlockType(Context context, int blockType) {
         if (!BLOCK_TYPE_TO_BLOCK_FACTORY.containsKey(blockType)) {
             throw new PcapNGFileFormatException("Unknown block type: " + blockType);
         }
-        return BLOCK_TYPE_TO_BLOCK_FACTORY.get(blockType).apply(reader);
+        return BLOCK_TYPE_TO_BLOCK_FACTORY.get(blockType).apply(context);
     }
 }

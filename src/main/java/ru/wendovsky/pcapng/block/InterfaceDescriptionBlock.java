@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
+import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
 import ru.wendovsky.pcapng.option.Options;
 import ru.wendovsky.pcapng.reader.Reader;
@@ -22,7 +23,8 @@ public final class InterfaceDescriptionBlock implements Block {
     final LinkType linkType;
     final int snapLength;
 
-    public InterfaceDescriptionBlock(Reader reader) {
+    public InterfaceDescriptionBlock(Context context) {
+        Reader reader = context.reader();
         linkType = linkTypeById(reader.readUnsignedShort());
         parseReserved(reader);
         snapLength = reader.readInt();
