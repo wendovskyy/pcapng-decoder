@@ -10,6 +10,6 @@ class ExceptionFactoryTest {
     void throwException() {
         assertThrows(IllegalArgumentException.class, () -> {
             new ExceptionFactory("123").throwException(IllegalArgumentException::new, "321");
-        }, "123 | 321");
+        });
     }
 }
