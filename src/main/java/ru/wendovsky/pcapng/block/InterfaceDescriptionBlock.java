@@ -25,8 +25,7 @@ public final class InterfaceDescriptionBlock implements Block {
         // Reserved
         reader.skip(2);
         snapLength = reader.readInt();
-        // TODO parse options
-        new Options(reader);
+        Options.createOptionIfMarkNotAchievedOrNull(reader);
     }
 
     private LinkType linkTypeById(int id) {

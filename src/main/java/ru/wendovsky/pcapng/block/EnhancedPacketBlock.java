@@ -26,9 +26,6 @@ public final class EnhancedPacketBlock implements Block {
         packetLength = reader.readInt();
         packetData = reader.readBytes(capturedLength);
         reader.align(4);
-        if (reader.markAchieved()) {
-            return;
-        }
-        new Options(reader);
+        Options.createOptionIfMarkNotAchievedOrNull(reader);
     }
 }
