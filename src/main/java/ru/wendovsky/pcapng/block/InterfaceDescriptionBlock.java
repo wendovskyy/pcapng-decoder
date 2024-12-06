@@ -22,8 +22,7 @@ public final class InterfaceDescriptionBlock implements Block {
 
     public InterfaceDescriptionBlock(Reader reader) {
         linkType = linkTypeById(reader.readUnsignedShort());
-        // Reserved
-        reader.skip(2);
+        parseReserved(reader);
         snapLength = reader.readInt();
         Options.createOptionIfMarkNotAchievedOrNull(reader);
     }
@@ -33,6 +32,10 @@ public final class InterfaceDescriptionBlock implements Block {
             return null;
         }
         return LINK_TYPE_MAP.get(id);
+    }
+
+    private void parseReserved(Reader reader) {
+        reader.skip(2);
     }
 
     static {

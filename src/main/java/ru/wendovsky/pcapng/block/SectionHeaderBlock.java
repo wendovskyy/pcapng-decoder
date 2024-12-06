@@ -29,8 +29,7 @@ public final class SectionHeaderBlock implements Block {
         reader.order(byteOrder(reader.readInt()));
         major = reader.readUnsignedShort();
         minor = reader.readUnsignedShort();
-        // Skip the length of section
-        reader.skip(8);
+        parseLengthOfSection(reader);
         Options options = new Options(reader);
         shbHardware = options.stringByCodeOrNull(SHB_HARDWARE);
         shbOs = options.stringByCodeOrNull(SHB_OS);
@@ -43,6 +42,10 @@ public final class SectionHeaderBlock implements Block {
             case BYTE_ORDER_MAGIC_BIG_ENDIAN -> ByteOrder.BIG_ENDIAN;
             default -> throw exception("Unknown byte order magic " + byteOrderMagic);
         };
+    }
+
+    private void parseLengthOfSection(Reader reader) {
+        reader.skip(8);
     }
 
     private PcapNGFileFormatException exception(String message) {
