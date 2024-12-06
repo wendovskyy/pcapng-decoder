@@ -11,9 +11,9 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.wendovsky.pcapng.util.TestUtils.*;
 
 class ByteBufferReaderTest {
-    static final String STANDALONE = "STANDALONE";
     static final String IGNORE_ORDER = "IGNORE_ORDER";
     static final String BE = "BE";
     static final String LE = "LE";
@@ -127,10 +127,6 @@ class ByteBufferReaderTest {
 
     boolean hasOrderInContext(TestInfo context) {
         return !context.getTags().contains("IGNORE_ORDER");
-    }
-
-    boolean standalone(TestInfo context) {
-        return context.getTags().contains(STANDALONE);
     }
 
     ByteOrder orderFromContext(TestInfo testInfo) {

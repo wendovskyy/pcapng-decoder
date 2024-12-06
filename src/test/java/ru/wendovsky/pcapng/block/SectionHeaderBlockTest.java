@@ -11,9 +11,9 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.wendovsky.pcapng.util.TestUtils.*;
 
 class SectionHeaderBlockTest {
-    static final String STANDALONE = "STANDALONE";
     static SectionHeaderBlock block;
 
     @BeforeAll
@@ -60,9 +60,5 @@ class SectionHeaderBlockTest {
     @Test
     void shbUserApplication() {
         assertEquals("Dumpcap (Wireshark) 3.0.1 (v3.0.1-0-gea351cd8)", block.shbUserApplication());
-    }
-
-    static boolean standalone(TestInfo context) {
-        return context.getTags().contains(STANDALONE);
     }
 }
