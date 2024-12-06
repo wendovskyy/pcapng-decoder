@@ -1,6 +1,9 @@
 package ru.wendovsky.pcapng.block;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.environment.Environment;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
@@ -8,10 +11,11 @@ import ru.wendovsky.pcapng.reader.ByteBufferReader;
 import ru.wendovsky.pcapng.reader.Reader;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static ru.wendovsky.pcapng.util.TestUtils.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.wendovsky.pcapng.util.TestUtils.STANDALONE;
+import static ru.wendovsky.pcapng.util.TestUtils.standalone;
 
 class SectionHeaderBlockTest {
     static SectionHeaderBlock block;

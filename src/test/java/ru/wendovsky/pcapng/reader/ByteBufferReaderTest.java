@@ -11,7 +11,8 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.wendovsky.pcapng.util.TestUtils.*;
+import static ru.wendovsky.pcapng.util.TestUtils.STANDALONE;
+import static ru.wendovsky.pcapng.util.TestUtils.standalone;
 
 class ByteBufferReaderTest {
     static final String IGNORE_ORDER = "IGNORE_ORDER";
