@@ -3,6 +3,7 @@ package ru.wendovsky.pcapng;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import lombok.experimental.Delegate;
 import lombok.experimental.FieldDefaults;
 import ru.wendovsky.pcapng.block.*;
 import ru.wendovsky.pcapng.block.lookup.Lookup;
@@ -18,7 +19,7 @@ import java.util.function.Function;
 
 @Accessors(fluent = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public final class PcapNG {
+public final class PcapNG implements Lookup {
     // Block type, length, length
     private static final int META_BYTES_PER_BLOCK_COUNT = 12;
     public static final int ALIGNMENT = 4;
@@ -30,9 +31,12 @@ public final class PcapNG {
     );
     @Getter
     final List<Block> blocks;
+    @Delegate
+    final Lookup lookup;
 
     public PcapNG(Reader reader) {
         blocks = parseBlocks(reader);
+        lookup = new PrimaryLookup(blocks);
     }
 
     private List<Block> parseBlocks(Reader reader) {
