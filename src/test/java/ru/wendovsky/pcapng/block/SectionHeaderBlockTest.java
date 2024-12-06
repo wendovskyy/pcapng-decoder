@@ -1,6 +1,7 @@
 package ru.wendovsky.pcapng.block;
 
 import org.junit.jupiter.api.*;
+import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.environment.Environment;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
 import ru.wendovsky.pcapng.reader.ByteBufferReader;
@@ -23,7 +24,7 @@ class SectionHeaderBlockTest {
         Reader reader = Environment.bunnyReader();
         // type, length
         reader.skip(8);
-        block = new SectionHeaderBlock(reader);
+        block = new SectionHeaderBlock(new Context(reader));
     }
 
     @Test
@@ -33,7 +34,7 @@ class SectionHeaderBlockTest {
         buffer.putInt(8, 0);
         Reader reader = new ByteBufferReader(buffer);
         reader.skip(8);
-        assertThrows(PcapNGFileFormatException.class, () -> new SectionHeaderBlock(reader));
+        assertThrows(PcapNGFileFormatException.class, () -> new SectionHeaderBlock(new Context(reader)));
     }
 
     @Test
