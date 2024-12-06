@@ -12,6 +12,10 @@ public class ExceptionFactory {
     final String name;
 
     public void throwException(Function<String, RuntimeException> exceptionFactory, String message) {
-        throw exceptionFactory.apply(name + " | " + message);
+        throw exception(exceptionFactory, message);
+    }
+
+    public RuntimeException exception(Function<String, RuntimeException> exceptionFactory, String message) {
+        return exceptionFactory.apply(name + " | " + message);
     }
 }

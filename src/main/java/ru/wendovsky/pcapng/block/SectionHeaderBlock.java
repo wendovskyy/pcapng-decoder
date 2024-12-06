@@ -14,6 +14,7 @@ import java.nio.ByteOrder;
 @Accessors(fluent = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class SectionHeaderBlock implements Block {
+    private static final ExceptionFactory EXCEPTION_FACTORY = new ExceptionFactory("SectionHeaderBlock");
     private static final int SHB_HARDWARE = 2;
     private static final int SHB_OS = 3;
     private static final int SHB_USER_APPLICATION = 4;
@@ -40,15 +41,12 @@ public final class SectionHeaderBlock implements Block {
         return switch (byteOrderMagic) {
             case BYTE_ORDER_MAGIC_LITTLE_ENDIAN -> ByteOrder.LITTLE_ENDIAN;
             case BYTE_ORDER_MAGIC_BIG_ENDIAN -> ByteOrder.BIG_ENDIAN;
-            default -> throw exception("Unknown byte order magic " + byteOrderMagic);
+            default ->
+                    throw EXCEPTION_FACTORY.exception(PcapNGFileFormatException::new, "Unknown byte order magic " + byteOrderMagic);
         };
     }
 
     private void parseLengthOfSection(Reader reader) {
         reader.skip(8);
-    }
-
-    private PcapNGFileFormatException exception(String message) {
-        return new PcapNGFileFormatException("SectionHeaderBlock / " + message);
     }
 }
