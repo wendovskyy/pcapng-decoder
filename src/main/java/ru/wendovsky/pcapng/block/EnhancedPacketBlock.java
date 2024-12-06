@@ -8,14 +8,14 @@ import ru.wendovsky.pcapng.PcapNG;
 import ru.wendovsky.pcapng.context.Context;
 import ru.wendovsky.pcapng.option.Options;
 import ru.wendovsky.pcapng.reader.Reader;
+import ru.wendovsky.pcapng.timestamp.Timestamp;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Accessors(fluent = true)
 public final class EnhancedPacketBlock implements Block {
     final InterfaceDescriptionBlock interfaceDescriptionBlock;
-    final int timestampHigh;
-    final int timestampLow;
+    final Timestamp timestamp;
     final int capturedLength;
     final int packetLength;
     final byte[] packetData;
@@ -25,8 +25,7 @@ public final class EnhancedPacketBlock implements Block {
         Lookup lookup = context.lookup();
         int interfaceId = reader.readInt();
         interfaceDescriptionBlock = lookup.findInterfaceDescriptionBlockById(interfaceId);
-        timestampHigh = reader.readInt();
-        timestampLow = reader.readInt();
+        timestamp = new Timestamp(reader.readInt(), reader.readInt(), interfaceDescriptionBlock.timeResolution());
         capturedLength = reader.readInt();
         packetLength = reader.readInt();
         packetData = reader.readBytes(capturedLength);

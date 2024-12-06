@@ -18,17 +18,24 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Accessors(fluent = true)
 public final class InterfaceDescriptionBlock implements Block {
+    private static final int IF_TIMESTAMP_RESOLUTION = 9;
     private static final ExceptionFactory EXCEPTION_FACTORY = new ExceptionFactory("InterfaceDescriptionBlock");
     private static final Map<Integer, LinkType> LINK_TYPE_MAP = new HashMap<>();
     final LinkType linkType;
     final int snapLength;
+    final int timeResolution;
 
     public InterfaceDescriptionBlock(Context context) {
         Reader reader = context.reader();
         linkType = linkTypeById(reader.readUnsignedShort());
         parseReserved(reader);
         snapLength = reader.readInt();
-        Options.createOptionIfMarkNotAchievedOrNull(reader);
+        Options options = Options.createOptionIfMarkNotAchievedOrNull(reader);
+        int timeResolution = 6;
+        if (options != null) {
+            timeResolution = options.unsignedIntByCodeOrNull(IF_TIMESTAMP_RESOLUTION);
+        }
+        this.timeResolution = timeResolution;
     }
 
     private LinkType linkTypeById(int id) {
