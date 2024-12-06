@@ -42,11 +42,16 @@ public final class ByteBufferReader implements Reader {
     }
 
     @Override
-    public String readUtf8(int length) {
+    public byte[] readBytes(int length) {
         guaranteeMoreFreeBytes(length);
         byte[] bytes = new byte[length];
         buffer.get(bytes);
-        return new String(bytes, StandardCharsets.UTF_8);
+        return bytes;
+    }
+
+    @Override
+    public String readUtf8(int length) {
+        return new String(readBytes(length), StandardCharsets.UTF_8);
     }
 
     @Override

@@ -13,6 +13,8 @@ public interface Reader {
 
     String readUtf8(int length);
 
+    byte[] readBytes(int length);
+
     void skip(int bytes);
 
     void order(ByteOrder order);
