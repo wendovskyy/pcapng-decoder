@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
+import ru.wendovsky.pcapng.block.InterfaceDescriptionBlock;
 import ru.wendovsky.pcapng.block.SectionHeaderBlock;
 import ru.wendovsky.pcapng.exception.PcapNGFileFormatException;
 import ru.wendovsky.pcapng.reader.Reader;
@@ -19,7 +20,8 @@ import java.util.function.Function;
 public final class PcapNG {
     public static final int ALIGNMENT = 4;
     private static final Map<Integer, Function<Reader, Block>> BLOCK_TYPE_TO_BLOCK_FACTORY = Map.of(
-            0x0A0D0D0A, SectionHeaderBlock::new
+            0x0A0D0D0A, SectionHeaderBlock::new,
+            0x00000001, InterfaceDescriptionBlock::new
     );
     @Getter
     final List<Block> blocks;
