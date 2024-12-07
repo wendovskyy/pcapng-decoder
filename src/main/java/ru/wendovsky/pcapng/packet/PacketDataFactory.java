@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@RequiredArgsConstructor
 public final class PacketDataFactory {
     private static final Map<LinkType, BiFunction<Reader, Integer, PacketData>> LINK_TYPE_TO_PACKET_DATA_FACTORY =
             Map.of(LinkType.ETHERNET, EthernetPacketData::new);
